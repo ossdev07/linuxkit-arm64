@@ -51,7 +51,6 @@ openntpd
 openrc
 patch
 python3
-qemu-aarch64
 qemu-arm
 qemu-guest-agent
 qemu-img
