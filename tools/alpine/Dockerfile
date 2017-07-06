@@ -1,4 +1,4 @@
-FROM alpine:3.6 AS mirror
+FROM arm64v8/alpine:3.6 AS mirror
 
 # update base image
 RUN apk update && apk upgrade -a
@@ -25,7 +25,7 @@ RUN cp /mirror/$(uname -m)/APKINDEX.unsigned.tar.gz /mirror/$(uname -m)/APKINDEX
 RUN abuild-sign /mirror/$(uname -m)/APKINDEX.tar.gz
 
 # fetch OVMF for qemu EFI boot (this is not added as a package)
-RUN apk add -X http://dl-cdn.alpinelinux.org/alpine/edge/community ovmf
+#RUN apk add -X http://dl-cdn.alpinelinux.org/alpine/edge/community ovmf
 
 # set this as our repo
 RUN echo "/mirror" > /etc/apk/repositories && apk update
@@ -38,16 +38,15 @@ RUN go get -u github.com/golang/lint/golint
 RUN go get -u github.com/gordonklaus/ineffassign
 RUN go get -u github.com/LK4D4/vndr
 
-FROM koalaman/shellcheck:v0.4.6@sha256:191b61e5f436fc51f22faaf2f4e0f77799f75977c7210377dd73a1a0f99ef8bd AS shellcheck
+FROM arm64b/shellcheck:v0.4.6 AS shellcheck
 
 
-FROM alpine:3.6
+FROM arm64v8/alpine:3.6
 
 COPY --from=mirror /etc/apk/repositories /etc/apk/repositories
 COPY --from=mirror /etc/apk/keys /etc/apk/keys/
 COPY --from=mirror /mirror /mirror/
 COPY --from=mirror /go/bin /go/bin/
-COPY --from=mirror /usr/share/ovmf/bios.bin /usr/share/ovmf/bios.bin
 COPY --from=mirror /Dockerfile /Dockerfile
 
 COPY --from=shellcheck /usr/local/bin/shellcheck /usr/local/bin/shellcheck
