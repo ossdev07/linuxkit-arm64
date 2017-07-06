@@ -15,14 +15,15 @@ on our ARM64 server with below command sequence:
 - `bin/linuxkit run linuxkit`
 
 We compile all the codes natively within an ARM64 server, so doesn't touch cross-compile.
-As a PoC, now we only support 4.11.x kernel series (config file), when building the
-image, we use below form command:
+As a PoC, now we only support 4.11.x kernel series (config file), we use below command
+when building the kernel image:
 
 - `make ORG=arm64b build_4.11.x`
 
 Finally we get something like this:
 
 ...
+
 [    5.745443] Freeing unused kernel memory: 576K
 
 Starting containerd
@@ -39,32 +40,38 @@ Welcome to LinuxKit
               \____\_______/
 
 
-INFO[0000] starting containerd boot...                   module=containerd
-...
-INFO[0000] containerd successfully booted in 0.046545s   module=containerd
+INFO[0000] starting containerd boot...			module=containerd
 
-(none) login: root (automatic login)
+...
+
+INFO[0000] containerd successfully booted in 0.046545s	 module=containerd
+
+linuxkit-525400123456 login: root (automatic login)
 
 Welcome to LinuxKit!
 
 NOTE: This system is namespaced.
+
 The namespace you are currently in may not be the root.
-login[959]: root login on 'ttyAMA0'
-(ns: getty) (none):~# uname -a
-Linux (none) 4.11.8 #1 SMP PREEMPT Wed Jul 5 23:17:23 UTC 2017 aarch64 Linux
 
-(ns: getty) (none):/#
+login[991]: root login on 'ttyAMA0'
 
-Major issue
+(ns: getty) linuxkit-525400123456:/# uname -a
+
+Linux linuxkit-525400123456 4.11.8 #1 SMP PREEMPT Thu Jul 6 05:38:19 UTC 2017 aarch64 Linux
+
+(ns: getty) linuxkit-525400123456:/#
+
+Major Issue
 ===========
-No ethernet interface generated(only have one 'lo' device), so dhcpcd service can not be launched.
+No Ethernet interface generated(only have one 'lo' device), so dhcpcd service can not be launched.
 
 Next Plan
 =========
-1. Multi-Arch support. Need to work with LinuxKit community to support both amd64 and arm64 with
-one code base. Now we have some hardcodes in it.
-2. Resolve the networking issue and fix all arm64-specific bugs.
-3. Add UEFI/ACPI support.
+- Multi-Arch support. Need to work with LinuxKit community to support both amd64 and arm64 with
+one code base only. Now we have some hardcodes in it, especially the docker image.
+- Resolve the networking issue and fix all arm64-specific bugs.
+- Add UEFI/ACPI support.
 
 # LinuxKit
 
