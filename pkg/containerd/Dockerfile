@@ -1,4 +1,4 @@
-FROM arm64b/alpine:3f8dd6cd614ccd9c104de391a2cf350adea908c1 as alpine
+FROM arm64b/alpine:a9b43ebb524e43a71001006c70921352adcbf6c5 as alpine
 RUN \
   apk add \
   btrfs-progs-dev \
