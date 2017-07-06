@@ -8,12 +8,18 @@ in 'master' branch.
 
 Based on 'aarch64' branch, we've built and boot a linuxkit image successfully
 on our ARM64 server with below command sequence:
+
 - `make bin/moby`
 - `make bin/linuxkit`
 - `bin/moby build linuxkit.yml`
 - `bin/linuxkit run linuxkit`
 
 We compile all the codes natively within an ARM64 server, so doesn't touch cross-compile.
+As a PoC, now we only support 4.11.x kernel series (config file), when building the
+image, we use below form command:
+
+- `make ORG=arm64b build_4.11.x`
+
 Finally we get something like this:
 
 ...
@@ -46,6 +52,7 @@ The namespace you are currently in may not be the root.
 login[959]: root login on 'ttyAMA0'
 (ns: getty) (none):~# uname -a
 Linux (none) 4.11.8 #1 SMP PREEMPT Wed Jul 5 23:17:23 UTC 2017 aarch64 Linux
+
 (ns: getty) (none):/#
 
 Major issue

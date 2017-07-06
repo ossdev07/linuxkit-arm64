@@ -1,4 +1,4 @@
-FROM linuxkit/alpine:9bcf61f605ef0ce36cc94d59b8eac307862de6e1 AS kernel-build
+FROM arm64b/alpine:3f8dd6cd614ccd9c104de391a2cf350adea908c1 AS kernel-build
 RUN apk add \
     argp-standalone \
     automake \
@@ -17,7 +17,6 @@ RUN apk add \
     kmod \
     libelf-dev \
     libressl-dev \
-    libunwind-dev \
     linux-headers \
     ncurses-dev \
     sed \
@@ -50,12 +49,12 @@ RUN curl -fsSLO ${KERNEL_SHA256_SUMS} && \
     gpg2 --verify linux-${KERNEL_VERSION}.tar.sign linux-${KERNEL_VERSION}.tar && \
     cat linux-${KERNEL_VERSION}.tar | tar --absolute-names -x && mv /linux-${KERNEL_VERSION} /linux
 
-COPY kernel_config-${KERNEL_SERIES} /linux/arch/x86/configs/x86_64_defconfig
+COPY kernel_config-${KERNEL_SERIES} /linux/arch/arm64/configs/defconfig
 COPY kernel_config.debug /linux/debug_config
 
 RUN if [ -n "${DEBUG}" ]; then \
-    sed -i 's/CONFIG_PANIC_ON_OOPS=y/# CONFIG_PANIC_ON_OOPS is not set/' /linux/arch/x86/configs/x86_64_defconfig; \
-    cat /linux/debug_config >> /linux/arch/x86/configs/x86_64_defconfig; \
+    sed -i 's/CONFIG_PANIC_ON_OOPS=y/# CONFIG_PANIC_ON_OOPS is not set/' /linux/arch/arm64/configs/defconfig; \
+    cat /linux/debug_config >> /linux/arch/arm64/configs/defconfig; \
     fi
 
 # Apply local patches
@@ -71,8 +70,8 @@ RUN mkdir /out
 # Kernel
 RUN make defconfig && \
     make oldconfig && \
-    make -j "$(getconf _NPROCESSORS_ONLN)" KCFLAGS="-fno-pie" && \
-    cp arch/x86_64/boot/bzImage /out/kernel && \
+    make -j "$(getconf _NPROCESSORS_ONLN)" && \
+    cp arch/arm64/boot/Image.gz /out/kernel && \
     cp System.map /out && \
     ([ -n "${DEBUG}" ] && cp vmlinux /out || true)
 
