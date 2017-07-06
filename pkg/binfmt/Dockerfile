@@ -1,7 +1,7 @@
-FROM arm64b/alpine:3f8dd6cd614ccd9c104de391a2cf350adea908c1 AS qemu
+FROM arm64b/alpine:a9b43ebb524e43a71001006c70921352adcbf6c5 AS qemu
 RUN apk add qemu-system-aarch64
 
-FROM arm64b/alpine:3f8dd6cd614ccd9c104de391a2cf350adea908c1 AS mirror
+FROM arm64b/alpine:a9b43ebb524e43a71001006c70921352adcbf6c5 AS mirror
 
 RUN apk add --no-cache go musl-dev
 ENV GOPATH=/go PATH=$PATH:/go/bin

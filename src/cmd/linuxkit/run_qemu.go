@@ -15,7 +15,7 @@ import (
 )
 
 // QemuImg is the version of qemu container
-const QemuImg = "arm64b/qemu:2c6d9e1d9c52167f4f2b7a8fd235eda318175c99"
+const QemuImg = "arm64b/qemu:d8054d073455cb4a41f9b791fcd21c217f761609"
 
 // QemuConfig contains the config for Qemu
 type QemuConfig struct {
