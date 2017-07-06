@@ -5,12 +5,12 @@ all: default
 VERSION="0.0" # dummy for now
 GIT_COMMIT=$(shell git rev-list -1 HEAD)
 
-GO_COMPILE=linuxkit/go-compile:f68574b165475cff908190e0f1e86cbbb1884f86
+GO_COMPILE=linuxkit/go-compile:2dacef94642cc96d47f1a9ccc7318a46b0f33838
 
 MOBY?=bin/moby
 LINUXKIT?=bin/linuxkit
 GOOS?=$(shell uname -s | tr '[:upper:]' '[:lower:]')
-GOARCH?=amd64
+GOARCH?=arm64
 ifneq ($(GOOS),linux)
 CROSS+=-e GOOS=$(GOOS)
 endif
