@@ -1,3 +1,64 @@
+ARM64
+=====
+
+This repository is forked from https://github.com/linuxkit/linuxkit.git.
+A new branch 'aarch64' is created in order to support ARM64 architecture,
+which is checked out from commit '3f89a607362be0cee5d003e9316c1f3fc823bf9c'
+in 'master' branch.
+
+Based on 'aarch64' branch, we've built and boot a linuxkit image successfully
+on our ARM64 server with below command sequence:
+- `make bin/moby`
+- `make bin/linuxkit`
+- `bin/moby build linuxkit.yml`
+- `bin/linuxkit run linuxkit`
+
+We compile all the codes natively within an ARM64 server, so doesn't touch cross-compile.
+Finally we get something like this:
+
+...
+[    5.745443] Freeing unused kernel memory: 576K
+
+Starting containerd
+
+Welcome to LinuxKit
+
+                        ##         .
+                  ## ## ##        ==
+               ## ## ## ## ##    ===
+           /"""""""""""""""""\___/ ===
+          {                       /  ===-
+           \______ O           __/
+             \    \         __/
+              \____\_______/
+
+
+INFO[0000] starting containerd boot...                   module=containerd
+...
+INFO[0000] containerd successfully booted in 0.046545s   module=containerd
+
+(none) login: root (automatic login)
+
+Welcome to LinuxKit!
+
+NOTE: This system is namespaced.
+The namespace you are currently in may not be the root.
+login[959]: root login on 'ttyAMA0'
+(ns: getty) (none):~# uname -a
+Linux (none) 4.11.8 #1 SMP PREEMPT Wed Jul 5 23:17:23 UTC 2017 aarch64 Linux
+(ns: getty) (none):/#
+
+Major issue
+===========
+No ethernet interface generated(only have one 'lo' device), so dhcpcd service can not be launched.
+
+Next Plan
+=========
+1. Multi-Arch support. Need to work with LinuxKit community to support both amd64 and arm64 with
+one code base. Now we have some hardcodes in it.
+2. Resolve the networking issue and fix all arm64-specific bugs.
+3. Add UEFI/ACPI support.
+
 # LinuxKit
 
 LinuxKit, a toolkit for building custom minimal, immutable Linux distributions.
