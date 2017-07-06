@@ -1,11 +1,11 @@
-FROM linuxkit/alpine:9bcf61f605ef0ce36cc94d59b8eac307862de6e1 AS mirror
+FROM arm64b/alpine:3f8dd6cd614ccd9c104de391a2cf350adea908c1 AS mirror
 RUN mkdir -p /out/etc/apk && cp -r /etc/apk/* /out/etc/apk/
 RUN apk add --no-cache --initdb -p /out \
     tini
 RUN rm -rf /out/etc/apk /out/lib/apk /out/var/cache
 RUN mkdir -p /out/dev /out/proc /out/sys
 
-FROM linuxkit/alpine:9bcf61f605ef0ce36cc94d59b8eac307862de6e1 AS build
+FROM arm64b/alpine:3f8dd6cd614ccd9c104de391a2cf350adea908c1 AS build
 RUN apk add \
     argp-standalone \
     automake \
@@ -23,8 +23,6 @@ ENV pkgname=rng-tools pkgver=5
 RUN curl -fSL "http://downloads.sourceforge.net/project/gkernel/$pkgname/$pkgver/$pkgname-$pkgver.tar.gz" -o "$pkgname-$pkgver.tar.gz"
 RUN sha256sum -c sha256sums
 RUN zcat $pkgname-$pkgver.tar.gz | tar xf -
-
-RUN cd $pkgname-$pkgver && for p in ../*.patch; do cat $p | patch -p1; done
 
 RUN cd $pkgname-$pkgver && \
   export LIBS="-largp" && \
