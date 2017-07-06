@@ -1,34 +1,34 @@
 kernel:
-  image: "linuxkit/kernel:4.9.35"
-  cmdline: "console=ttyS0 console=tty0 page_poison=1"
+  image: "arm64b/kernel:4.11.8-8bcfec8e1f86bab7a642082aa383696c182732f5"
+  cmdline: "console=ttyAMA0 page_poison=1"
 init:
-  - linuxkit/init:14a38303ee9dcb4541c00e2b87404befc1ba2083
-  - linuxkit/runc:2310ad9d266cf5d9c4d07613bd2135ed7eb8a21f
-  - linuxkit/containerd:c977f27c234d55b85172813b8451f67ea86be4a3
-  - linuxkit/ca-certificates:67acf038c44bb191ebb704ec7bb39a1524052cdf
+  - arm64b/init:14a38303ee9dcb4541c00e2b87404befc1ba2083
+  - arm64b/runc:2310ad9d266cf5d9c4d07613bd2135ed7eb8a21f
+  - arm64b/containerd:c977f27c234d55b85172813b8451f67ea86be4a3
+  - arm64b/ca-certificates:67acf038c44bb191ebb704ec7bb39a1524052cdf
 onboot:
   - name: sysctl
-    image: "linuxkit/sysctl:d1a43c7c91e92374766f962dc8534cf9508756b0"
+    image: "arm64b/sysctl:d1a43c7c91e92374766f962dc8534cf9508756b0"
   - name: binfmt
-    image: "linuxkit/binfmt:0bde4ebd422099f45c5ee03217413523ad2223e5"
-  - name: dhcpcd
-    image: "linuxkit/dhcpcd:4b7b8bb024cebb1bbb9c8026d44d7cbc8e202c41"
-    command: ["/sbin/dhcpcd", "--nobackground", "-f", "/dhcpcd.conf", "-1"]
+    image: "arm64b/binfmt:0bde4ebd422099f45c5ee03217413523ad2223e5"
+#  - name: dhcpcd
+#    image: "linuxkit/dhcpcd:4b7b8bb024cebb1bbb9c8026d44d7cbc8e202c41"
+#    command: ["/sbin/dhcpcd", "--nobackground", "-f", "/dhcpcd.conf", "-1"]
 services:
   - name: getty
-    image: "linuxkit/getty:5ab31289889d61a5d2ecbeea8e36ce74ac54737c"
+    image: "arm64b/getty:5ab31289889d61a5d2ecbeea8e36ce74ac54737c"
     env:
      - INSECURE=true
   - name: rngd
-    image: "linuxkit/rngd:1516d5d70683a5d925fe475eb1b6164a2f67ac3b"
-  - name: nginx
-    image: "nginx:alpine"
-    capabilities:
-     - CAP_NET_BIND_SERVICE
-     - CAP_CHOWN
-     - CAP_SETUID
-     - CAP_SETGID
-     - CAP_DAC_OVERRIDE
+    image: "arm64b/rngd:1516d5d70683a5d925fe475eb1b6164a2f67ac3b"
+#  - name: nginx
+#    image: "nginx:alpine"
+#    capabilities:
+#     - CAP_NET_BIND_SERVICE
+#     - CAP_CHOWN
+#     - CAP_SETUID
+#     - CAP_SETGID
+#     - CAP_DAC_OVERRIDE
 files:
   - path: etc/containerd/config.toml
     contents: |
