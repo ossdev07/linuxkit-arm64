@@ -15,7 +15,7 @@ import (
 )
 
 // QemuImg is the version of qemu container
-const QemuImg = "linuxkit/qemu:bc5e096d3b440509954aa9341db3ff4d3d615344"
+const QemuImg = "arm64b/qemu:2c6d9e1d9c52167f4f2b7a8fd235eda318175c99"
 
 // QemuConfig contains the config for Qemu
 type QemuConfig struct {
@@ -74,7 +74,7 @@ func runQemu(args []string) {
 
 	// VM configuration
 	enableKVM := flags.Bool("kvm", haveKVM(), "Enable KVM acceleration")
-	arch := flags.String("arch", "x86_64", "Type of architecture to use, e.g. x86_64, aarch64")
+	arch := flags.String("arch", "aarch64", "Type of architecture to use, e.g. x86_64, aarch64")
 	cpus := flags.String("cpus", "1", "Number of CPUs")
 	mem := flags.String("mem", "1024", "Amount of memory in MB")
 
@@ -349,12 +349,23 @@ func buildQemuCmdline(config QemuConfig) (QemuConfig, []string) {
 	qemuArgs = append(qemuArgs, "-device", "virtio-rng-pci")
 	qemuArgs = append(qemuArgs, "-smp", config.CPUs)
 	qemuArgs = append(qemuArgs, "-m", config.Memory)
+	if config.Arch == "aarch64" {
+		qemuArgs = append(qemuArgs, "-cpu", "host")
+	}
 
 	if config.KVM {
 		qemuArgs = append(qemuArgs, "-enable-kvm")
-		qemuArgs = append(qemuArgs, "-machine", "q35,accel=kvm:tcg")
+		if config.Arch == "aarch64" {
+			qemuArgs = append(qemuArgs, "-machine", "virt")
+		} else {
+			qemuArgs = append(qemuArgs, "-machine", "q35,accel=kvm:tcg")
+		}
 	} else {
-		qemuArgs = append(qemuArgs, "-machine", "q35")
+		if config.Arch == "aarch64" {
+			qemuArgs = append(qemuArgs, "-machine", "virt")
+		} else {
+			qemuArgs = append(qemuArgs, "-machine", "q35")
+		}
 	}
 
 	for i, d := range config.Disks {
