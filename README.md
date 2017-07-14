@@ -62,9 +62,22 @@ Linux linuxkit-525400123456 4.11.8 #1 SMP PREEMPT Thu Jul 6 05:38:19 UTC 2017 aa
 
 (ns: getty) linuxkit-525400123456:/#
 
-Major Issue
-===========
+Status Update
+=============
+We use this branch as a start point, base on that we've submitted some PRs order to make ARM64
+support for LinuxKit with only one code base.
+- Refactor the kernel Dockerfile to support both amd64 and arm64.
+- Remove the hardcode of virtual machine type, so now the upstream can run the LinuxKit image
+on ARM64 with:
+ `bin/linuxkit run -arch "aarch64"
+- Remove the fixed built-in x86 bios firmware, thus we can support ARM64 UEFI with:
+ `bin/linuxkit run qemu -containerized -arch "aarch64" -fw "path/to/arm64_bios.bin" -uefi linuxkit`
+
+Major Issue (closed)
+====================
 No Ethernet interface generated(only have one 'lo' device), so dhcpcd service can not be launched.
+This issue has been resolved after rebase to the latest LinuxKit codebase, but I think this issue
+should be related with the kernel configuration file.
 
 Next Plan
 =========
@@ -72,6 +85,8 @@ Next Plan
 one code base only. Now we have some hardcodes in it, especially the docker image.
 - Resolve the networking issue and fix all arm64-specific bugs.
 - Add UEFI/ACPI support.
+- ARM64 support for qemu Dockerfile
+- ...
 
 # LinuxKit
 
