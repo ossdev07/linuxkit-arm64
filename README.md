@@ -71,9 +71,11 @@ support for LinuxKit with only one code base.
 on ARM64 with:
  `bin/linuxkit run -arch "aarch64"
 - Remove the fixed built-in x86 bios firmware, thus we can support ARM64 UEFI with:
- `bin/linuxkit run qemu -containerized -arch "aarch64" -fw "path/to/arm64_bios.bin" -uefi linuxkit`
+ `bin/linuxkit run qemu -containerized -arch "aarch64" -fw "/path/to/arm64_bios.bin" -uefi linuxkit`
+- Kernel configuration for ARM64
+- ...
 
-Major Issue (closed)
+Major Issue (Closed)
 ====================
 No Ethernet interface generated(only have one 'lo' device), so dhcpcd service can not be launched.
 This issue has been resolved after rebase to the latest LinuxKit codebase, but I think this issue
