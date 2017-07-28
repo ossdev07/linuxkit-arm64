@@ -11,6 +11,9 @@ onboot:
     image: "arm64b/sysctl:baf0ce460871f8eafa9c881bd44b13e6743bd2ed"
   - name: binfmt
     image: "arm64b/binfmt:a367b53e70154c8bb1d9dc8e9cc4de5adcf1bd0a"
+  - name: dhcpcd
+    image: "arm64b/dhcpcd:4b7b8bb024cebb1bbb9c8026d44d7cbc8e202c41"
+    command: ["/sbin/dhcpcd", "--nobackground", "-f", "/dhcpcd.conf", "-1"]
 services:
   - name: getty
     image: "arm64b/getty:971a3c90377ac8cd03db59a4c9ea303caf2cb551"

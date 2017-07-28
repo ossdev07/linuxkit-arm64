@@ -68,7 +68,7 @@ We use this branch as a start point, base on that we've submitted some PRs order
 support for LinuxKit with only one code base.
 - Refactor the kernel Dockerfile to support both amd64 and arm64.
 - Remove the hardcode of virtual machine type, so now the upstream can run the LinuxKit image
-on ARM64 with:
+  on ARM64 with:
  `bin/linuxkit run -arch "aarch64"
 - Remove the fixed built-in x86 bios firmware, thus we can support ARM64 UEFI with:
  `bin/linuxkit run qemu -containerized -arch "aarch64" -fw "/path/to/arm64_bios.bin" -uefi linuxkit`
@@ -84,10 +84,10 @@ should be related with the kernel configuration file.
 Next Plan
 =========
 - Multi-Arch support. Need to work with LinuxKit community to support both amd64 and arm64 with
-one code base only. Now we have some hardcodes in it, especially the docker image.
-- Resolve the networking issue and fix all arm64-specific bugs.
+  one code base only. Now we have some hardcodes in it, especially the docker image.
+- Fix all arm64-specific bugs.
 - Add UEFI/ACPI support.
-- ARM64 support for qemu Dockerfile
+- ARM64 security
 - ...
 
 # LinuxKit

@@ -38,9 +38,6 @@ RUN go get -u github.com/golang/lint/golint
 RUN go get -u github.com/gordonklaus/ineffassign
 RUN go get -u github.com/LK4D4/vndr
 
-FROM arm64b/shellcheck:v0.4.6 AS shellcheck
-
-
 FROM arm64v8/alpine:3.6
 
 COPY --from=mirror /etc/apk/repositories /etc/apk/repositories
@@ -48,9 +45,6 @@ COPY --from=mirror /etc/apk/keys /etc/apk/keys/
 COPY --from=mirror /mirror /mirror/
 COPY --from=mirror /go/bin /go/bin/
 COPY --from=mirror /Dockerfile /Dockerfile
-
-COPY --from=shellcheck /usr/local/bin/shellcheck /usr/local/bin/shellcheck
-COPY --from=shellcheck /usr/local/lib/ /usr/local/lib/
 
 RUN apk update && apk upgrade -a
 
