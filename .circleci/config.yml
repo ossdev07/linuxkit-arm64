@@ -32,7 +32,9 @@ jobs:
           environment:
             GOOS: linux
             GOARCH: arm64
-          command: make LOCAL_TARGET=bin/linuxkit-$GOOS-$GOARCH local-build
+          command: 
+            uname -a
+            make LOCAL_TARGET=bin/linuxkit-$GOOS-$GOARCH local-build
       - run:
           name: Build amd64/darwin
           environment:
