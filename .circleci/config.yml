@@ -32,7 +32,7 @@ jobs:
           environment:
             GOOS: linux
             GOARCH: arm64
-          command: 
+          command: |
             uname -a
             make LOCAL_TARGET=bin/linuxkit-$GOOS-$GOARCH local-build
       - run:
